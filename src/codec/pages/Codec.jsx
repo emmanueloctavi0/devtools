@@ -9,6 +9,12 @@ export const Codec = () => {
     setEncoded(btoa(plainText));
   }, [plainText]);
 
+  useEffect(() => {
+    try {
+      setPlainText(atob(encoded));
+    } catch (error) {}
+  }, [encoded]);
+
   return (
     <>
       <div className="container mx-auto text-center">
