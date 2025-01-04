@@ -12,7 +12,7 @@ export const Codec = () => {
   useEffect(() => {
     try {
       setPlainText(atob(encoded));
-    } catch (error) {}
+    } catch {}
   }, [encoded]);
 
   return (
