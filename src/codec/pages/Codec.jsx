@@ -17,7 +17,7 @@ export const Codec = () => {
 
   return (
     <>
-      <div className="container mx-auto text-center">
+      <div className="container mx-auto text-center animate__animated animate__fadeInDown animate__faster">
         <h1 className="mt-12 text-3xl">Base64 Encoder</h1>
         <Textarea
           title="Plain text"

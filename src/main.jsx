@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import { Router } from "./Router";
 import "./index.css";
+import 'animate.css';
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

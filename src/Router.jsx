@@ -6,7 +6,7 @@ import { PageIndex } from "./core/pages/PageIndex";
 export const Router = () => {
   return (
     <Routes>
-      <Route path="codec" element={<Codec/>} />
+      <Route path="base64" element={<Codec/>} />
       <Route path="/" element={<PageIndex/>} />
     </Routes>
   );
