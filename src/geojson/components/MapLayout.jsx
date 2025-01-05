@@ -1,7 +1,7 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-export const MapLayout = ({ initialPosition, coordinates }) => {
+export const MapLayout = ({ initialPosition, coordinates, geoJson }) => {
   return (
     <MapContainer
       center={initialPosition}
@@ -17,6 +17,7 @@ export const MapLayout = ({ initialPosition, coordinates }) => {
           <Popup>{JSON.stringify(position)}</Popup>
         </Marker>
       ))}
+      <GeoJSON data={geoJson} />
     </MapContainer>
   );
 };

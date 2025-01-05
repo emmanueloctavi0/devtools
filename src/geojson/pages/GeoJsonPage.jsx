@@ -53,6 +53,7 @@ export const GeoJsonPage = () => {
         <MapLayout
           initialPosition={initialPosition}
           coordinates={coordinates}
+          geoJson={geoJson}
         />
       </div>
       <div className="basis-1/5 p-3">
