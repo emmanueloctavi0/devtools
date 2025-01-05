@@ -7,44 +7,24 @@ export const GeoJsonPage = () => {
   const initialPosition = [19.435729, -99.143955];
   const [coordinates, setCoordinates] = useState([initialPosition]);
 
-  const cleanPositions = (data) => {
-    let positions = null;
-    try {
-      positions = JSON.parse(data);
-    } catch {}
-
-    if (positions) {
-      if (Array.isArray(positions)) {
-        positions = positions.map((position) => {
-          if (
-            Array.isArray(position) &&
-            position.length === 2 &&
-            !isNaN(position[0]) &&
-            !isNaN(position[1])
-          ) {
-            return position;
-          }
-        });
-
-        if (!positions.includes(undefined)) {
-          setCoordinates(positions);
-        }
-      }
-    }
-  };
-
   const coordinatesProps = useFormInput({
     initialValue: "[[19.435729, -99.143955]]",
     onChangeValue(data) {
-      cleanPositions(data);
+      if (!data) {
+        setCoordinates([]);
+        return;
+      }
+
+      try {
+        const newCoordinates = JSON.parse(data);
+        setCoordinates(newCoordinates);
+      } catch {}
     },
   });
 
   const geoJsonProps = useFormInput({
     initialValue: JSON.stringify(geoJson),
-    onChangeValue(data) {
-      // cleanPositions(data);
-    },
+    onChangeValue(data) {},
   });
 
   return (
