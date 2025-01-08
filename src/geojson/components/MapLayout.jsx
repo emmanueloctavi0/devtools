@@ -1,9 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-export const MapLayout = ({ initialPosition, coordinates, geoJson }) => {
-  let markers = [];
-
+const getMarkers = (coordinates) => {
   if (coordinates && Array.isArray(coordinates)) {
     const cleanCoordinates = coordinates.map((coordinate) => {
       if (
@@ -17,13 +15,17 @@ export const MapLayout = ({ initialPosition, coordinates, geoJson }) => {
     });
 
     if (!cleanCoordinates.includes(undefined)) {
-      markers = cleanCoordinates.map((coordinate) => (
+      return cleanCoordinates.map((coordinate) => (
         <Marker position={coordinate} key={coordinate}>
           <Popup>{JSON.stringify(coordinate)}</Popup>
         </Marker>
       ));
     }
   }
+};
+
+export const MapLayout = ({ initialPosition, coordinates, geoJson }) => {
+  let markers = getMarkers(coordinates);
 
   return (
     <MapContainer
@@ -36,7 +38,7 @@ export const MapLayout = ({ initialPosition, coordinates, geoJson }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {markers}
-      <GeoJSON data={geoJson} />
+      {geoJson && <GeoJSON data={geoJson} />}
     </MapContainer>
   );
 };
