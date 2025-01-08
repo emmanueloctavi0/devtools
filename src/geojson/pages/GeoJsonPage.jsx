@@ -6,6 +6,7 @@ import { geoJson } from "../utils";
 export const GeoJsonPage = () => {
   const initialPosition = [19.435729, -99.143955];
   const [coordinates, setCoordinates] = useState([initialPosition]);
+  const [geoJsonData, setGeoJsonData] = useState(geoJson);
 
   const coordinatesProps = useFormInput({
     initialValue: "[[19.435729, -99.143955]]",
@@ -24,7 +25,19 @@ export const GeoJsonPage = () => {
 
   const geoJsonProps = useFormInput({
     initialValue: JSON.stringify(geoJson),
-    onChangeValue(data) {},
+    onChangeValue(data) {
+      if (!data) {
+        setGeoJsonData([]);
+        return;
+      }
+
+      try {
+        const newGeoJson = JSON.parse(data);
+        setGeoJsonData(newGeoJson);
+      } catch (e) {
+        console.log("Invalid GeoJSON");
+      }
+    },
   });
 
   return (
@@ -33,7 +46,7 @@ export const GeoJsonPage = () => {
         <MapLayout
           initialPosition={initialPosition}
           coordinates={coordinates}
-          geoJson={geoJson}
+          geoJson={geoJsonData}
         />
       </div>
       <div className="basis-1/5 p-3">
@@ -45,7 +58,7 @@ export const GeoJsonPage = () => {
           onChange={geoJsonProps.onChange}
         ></textarea>
 
-        <h2 className="text-lg text-center">Coordinates</h2>
+        <h2 className="text-lg text-center">Points</h2>
         <textarea
           className="p-1 w-full rounded text-slate-900"
           rows={10}
