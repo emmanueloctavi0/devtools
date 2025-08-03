@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-json": "^6.0.2",
+    "@uiw/codemirror-theme-tokyo-night": "^4.24.2",
+    "@uiw/react-codemirror": "^4.24.2",
     "animate.css": "^4.1.1",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",

@@ -1,5 +1,8 @@
 import { useState, useCallback } from "react";
 import L from "leaflet";
+import CodeMirror from "@uiw/react-codemirror";
+import { json } from "@codemirror/lang-json";
+import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
 import { MapLayout } from "../components/MapLayout";
 import { useFormInput } from "../../core/hooks/useFormInput";
 import { geoJson } from "../utils";
@@ -151,8 +154,8 @@ export const GeoJsonPage = () => {
   );
 
   return (
-    <div className="flex flex-row">
-      <div className="basis-4/5 h-screen">
+    <div className="flex flex-row h-screen">
+      <div className="basis-4/5">
         <MapLayout
           initialPosition={initialPosition}
           geoJsonData={geoJsonData}
@@ -162,14 +165,15 @@ export const GeoJsonPage = () => {
           onFeatureDelete={handleFeatureDelete} // Pass the new handler
         />
       </div>
-      <div className="basis-1/5 p-3">
-        <h2 className="text-lg text-center">GeoJSON</h2>
-        <textarea
-          className="p-1 w-full rounded text-slate-900"
-          rows={10}
+      <div className="basis-1/5 flex flex-col p-3">
+        <h2 className="text-lg text-center mb-2">GeoJSON</h2>
+        <CodeMirror
+          className="flex-grow overflow-y-auto"
           value={geoJsonProps.value}
+          theme={tokyoNight}
+          extensions={[json()]}
           onChange={geoJsonProps.onChange}
-        ></textarea>
+        />
       </div>
     </div>
   );
