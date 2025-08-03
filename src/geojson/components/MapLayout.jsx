@@ -1,61 +1,15 @@
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  GeoJSON,
-  useMap,
-} from "react-leaflet";
+import { MapContainer, TileLayer, FeatureGroup, GeoJSON } from "react-leaflet";
+import { EditControl } from "react-leaflet-draw";
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
+import "leaflet-draw/dist/leaflet.draw.css";
 
-const getMarkers = (coordinates) => {
-  if (coordinates && Array.isArray(coordinates)) {
-    const cleanCoordinates = coordinates.map((coordinate) => {
-      if (
-        Array.isArray(coordinate) &&
-        coordinate.length === 2 &&
-        !isNaN(coordinate[0]) &&
-        !isNaN(coordinate[1])
-      ) {
-        return coordinate;
-      }
-    });
-
-    if (!cleanCoordinates.includes(undefined)) {
-      return cleanCoordinates.map((coordinate) => (
-        <Marker position={coordinate} key={coordinate}>
-          <Popup>{JSON.stringify(coordinate)}</Popup>
-        </Marker>
-      ));
-    }
-  }
-};
-
-const GeoJSONLayer = ({ geoJson }) => {
-  const map = useMap();
-
-  useEffect(() => {
-    if (geoJson) {
-      // Calcular los límites del GeoJSON
-      const bounds = L.geoJSON(geoJson).getBounds();
-      // Ajustar el mapa a estos límites
-      try {
-        map.fitBounds(bounds);
-      } catch (error) {
-        console.log("Invalid GeoJSON");
-      }
-    }
-  }, [geoJson, map]);
-
-  return geoJson ? (
-    <GeoJSON key={JSON.stringify(geoJson)} data={geoJson} />
-  ) : null;
-};
-
-export const MapLayout = ({ initialPosition, coordinates, geoJson }) => {
-  const markers = getMarkers(coordinates);
-
+export const MapLayout = ({
+  initialPosition,
+  geoJsonData,
+  onLayerCreated,
+  onLayerEdited,
+  onLayerDeleted,
+}) => {
   return (
     <MapContainer
       center={initialPosition}
@@ -66,8 +20,22 @@ export const MapLayout = ({ initialPosition, coordinates, geoJson }) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {markers}
-      <GeoJSONLayer geoJson={geoJson} />
+      {geoJsonData && <GeoJSON data={geoJsonData} />}
+      <FeatureGroup>
+        <EditControl
+          position="topright"
+          onCreated={onLayerCreated}
+          onEdited={onLayerEdited}
+          onDeleted={onLayerDeleted}
+          draw={{
+            rectangle: false,
+            polygon: false,
+            circle: false,
+            polyline: false,
+            circlemarker: false,
+          }}
+        />
+      </FeatureGroup>
     </MapContainer>
   );
 };
